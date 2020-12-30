@@ -1,6 +1,6 @@
-=========================================
-1 :: Category: The Essence of Computation
-=========================================
+====================================
+Category: The Essence of Computation
+====================================
 
 Notes
 =====
@@ -12,7 +12,7 @@ Morphisms between objects can be composed:
     :alt: Objects A, B and C with their morphisms.
     :align: center
 
-Implies the composition of g ∘ f:
+Implies the composition of :math:`g \circ f`:
 
 .. image:: img/ch1-2.png
     :alt: Composition of g.f
@@ -31,11 +31,9 @@ Python, it would look something like ``g(f(x))``. In Haskell, one can use ``g . 
 
 Composition of morphisms should be associative, meaning that:
 
-- h ∘ (g ∘ f)
-- (h ∘ g) ∘ f
-- h ∘ g ∘ f
+.. math::
 
-are equal.
+    h \circ (g \circ f) = (h \circ g) \circ f = h \circ g \circ f
 
 Objects also have an identity morphism:
 
@@ -43,7 +41,8 @@ Objects also have an identity morphism:
    :alt: Identity morphisms
    :align: center
 
-The identity morphism implies that f ∘ id\ :sub:`A` = f and id\ :sub:`B` ∘ f = f.
+The identity morphism implies that :math:`f \circ id_{A} = f` and
+:math:`id_{B} \circ f = f`.
 
 1.4 :: Challenges
 =================
