@@ -11,7 +11,7 @@ to the chapter exercises.
 .. toctree::
    :maxdepth: 1
    :caption: Chapters
-   :numbered:
+   :numbered: 1
 
    ch1
    ch2
