@@ -114,7 +114,7 @@ domain set. However, functions don't have to cover the whole codomain. ``f100``
 is a total function in that is covers every value of ``()``, but only covers one
 value of the codomain: ``100`` in the set of integers. Functions that have a
 smaller domain than the codomain *embed* the domain in the codomain. Functions
-that tightly fill their codomains are **surjective** or **onto**.
+that tightly fill their codomains, on the other hand, are **surjective** or **onto**.
 
 Functions can also map many elements of the domain onto one element of the
 codomain:
