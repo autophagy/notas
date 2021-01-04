@@ -133,3 +133,134 @@ and are properly invertable. An ismorphism in the category of sets is a bijectio
 Challenges
 ==========
 
+5.1
+---
+
+**Show that the terminal object is unique up to unique isomorphism.**
+
+We can basically just reverse the proof for the initial object.
+
+Take 2 terminal objects, :math:`t_1` and :math:`t_2`, with morphisms
+:math:`f :: t_2 \rightarrow t_1` and :math:`g :: t_1 \rightarrow t_2`.
+:math:`g \circ f` is a morphism from :math:`t_2 \rightarrow t_2`.
+Since :math:`t_2` is terminal, there can be only 1 morphism to it from any object,
+and objects in a category have the identity morphism already, so
+:math:`g \circ f = id_{t_2}`. Similarly, :math:`f \circ g = id_{t_1}`. :math:`f`
+and :math:`g` must be the inverse of each other. Therefore, any 2 terminal
+objects are isomorphic. The terminal object is unique up to unique isomorphism.
+
+5.2
+---
+
+**What is a product of two objects in a poset?**
+
+To recap: a poset, or partially ordered set, is a category where a morphism
+is a relation between objects: for example, the relation of being less than
+or equal. It has:
+
+- *Identity morphisms*: an object is less than or equal to itself.
+- *Composition*: :math:`a \leq b \land b \leq c \rightarrow a \leq c`.
+- *Partial order*: additional condition that :math:`a \leq b \land b \leq a \rightarrow a = b`.
+
+However, a partial order is not a total/linear order, in which every object
+has a morphism to every other.
+
+If we have 2 objects, :math:`a` and :math:`b`, we seek a :math:`c` that is the
+product of those objects, with morphisms :math:`p :: c \rightarrow a` and
+:math:`q :: c \rightarrow b`.
+
+Given that the morphisms in this posset are the relation of being less than
+or equal, the morphisms from :math:`c` are :math:`p :: c <= a` and
+:math:`q :: c <= b`.
+
+The product :math:`c` must be a number that is less than or equal to a or b. It must also
+be the *biggest* number less than or equal to a and b, as if were not, then the morphism
+:math:`m :: c' <= c` would factorize :math:`p'` and :math:`q'`:
+
+.. code-block:: haskell
+   m :: c' <= c
+
+   p :: c <= a
+   q :: c <= b
+
+   p' :: c' <= a
+   q' :: c' <= b
+
+   p' :: m.p -> c' <= c && c <= a == c' <= a
+   q' :: m.p -> c' <= c && c <= b == c' <= b
+
+So, for example, if :math:`a = 5` and :math:`b = 6`, then :math:`c \leq 5 \land c \leq 6`.
+In this case, :math:`c = 5`, as :math:`5 \leq 5 \land 5 \leq 6`. If :math:`c' = 4`, then
+:math:`m :: c' <= c`.
+
+5.3
+---
+
+**What is a coproduct of two objects in a poset?**
+
+A coproduct :math:`c` of :math:`a` and :math:`b` in the poset defined in 5.2
+would have the morphisms :math:`i :: a \leq c` and :math:`j :: b \leq c`. It
+should also be the object where :math:`m :: c \leq c'`. In the example poset, it
+would be the *smallest* number less than or equal to both a and b.
+
+If :math:`a = 5` and :math:`b = 6`, then the coproduct :math:`a \leq c \land b \leq c`.
+This would be :math:`c = 6`. If :math:`c' = 7`, then :math:`m :: c <= c'`.
+
+5.4
+---
+
+**Implement the equivalent of Haskell Either as a generic type in your favorite
+language (other than Haskell).**
+
+.. code-block:: python
+
+    from typing import Generic, TypeVar
+
+    T = TypeVar("T")
+    U = TypeVar("U")
+
+
+    class Either(Generic[T, U]):
+        pass
+
+
+    class Left(Either[T, U]):
+        def __init__(self, value: T) -> None:
+            self.value = value
+
+
+    class Right(Either[T, U]):
+        def __init__(self, value: U) -> None:
+            self.value = value
+
+
+    left = Left[str, int]("hello")
+    right = Right[str, int](10)
+
+    assert type(left.value) == str
+    assert type(right.value) == int
+
+    assert left.value == "hello"
+    assert right.value == 10
+
+5.5
+---
+
+**Show that Either is a “better” coproduct than int equipped with two
+injections:**
+
+.. code-block:: cpp
+
+     int i(int n) { return n; }
+     int j(bool b) { return b? 0: 1; }
+
+**Hint: Define a function int m(Either const & e); that factorizes i and j.**
+
+In this instance, ``m :: Either int bool -> int``
+
+.. code-block:: cpp
+
+   int m(Either const & e) {
+      return (e.tag == Either::isLeft) ? e.left : e.right ? 0 : 1;
+   }
+
