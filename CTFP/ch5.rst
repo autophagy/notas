@@ -178,6 +178,7 @@ be the *biggest* number less than or equal to a and b, as if were not, then the 
 :math:`m :: c' <= c` would factorize :math:`p'` and :math:`q'`:
 
 .. code-block:: haskell
+
    m :: c' <= c
 
    p :: c <= a
