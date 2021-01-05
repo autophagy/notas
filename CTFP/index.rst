@@ -19,5 +19,6 @@ to the chapter exercises.
    ch4
    ch5
    ch6
+   ch7
 
 .. _Category Theory For Programmers: https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/
