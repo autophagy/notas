@@ -10,15 +10,10 @@ to the chapter exercises.
 
 .. toctree::
    :maxdepth: 1
-   :caption: Chapters
+   :caption: Part One
    :numbered: 1
+   :glob:
 
-   ch1
-   ch2
-   ch3
-   ch4
-   ch5
-   ch6
-   ch7
+   part1/ch*
 
 .. _Category Theory For Programmers: https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/
