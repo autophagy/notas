@@ -98,3 +98,103 @@ And looks like:
 The mapping that takes a pair of objects :math:`(a, b)` and assigns the pair
 to the set of morphisms between them, :math:`Hom_{C}(a, b)`, is a functor from
 :math:`C^{op} \times C \rightarrow Set`.
+
+Challenges
+==========
+
+8.1
+---
+
+**Show that the data type:**
+
+.. code-block:: haskell
+
+   data Pair a b = Pair a b
+
+**is a bifunctor. For additional credit implement all three methods of Bifunctor
+and use equational reasoning to show that these definitions are compatible
+with the default implementations whenever they can be applied.**
+
+We can turn ``Pair`` into a functor by fixing the first argument type:
+
+.. code-block:: haskell
+
+   instance Functor (Pair a) where
+      fmap f (Pair a b) = Pair a (f b)
+
+We can prove this preserves identity through equational reasoning like in the
+last chapter:
+
+.. code-block:: haskell
+
+     fmap id (Pair a b)
+   = { def of fmap }
+     Pair a (id b)
+   = { def of id }
+     Pair a b
+   = { def of id }
+     id (Pair a b)
+
+Next, the composition preservation law:
+
+.. code-block:: haskell
+
+     fmap (g . f) (Pair a b)
+   = { def of fmap }
+     Pair a (g(f b))
+   = { def of fmap }
+     fmap g (Pair a (f b))
+   = { def of fmap }
+     fmap g (fmap f (Pair a b))
+   = { composition }
+     (fmap g . fmap f) (Pair a b)
+
+So, ``Pair`` acts as a functor in the second argument type. We can also implement
+``Pair`` as a functor by fixing the ``b`` type of ``Pair a b``, implementing
+``fmap`` as ``fmap f (Pair a b) = Pair (f a) b`` and proving the identity and
+composition laws the same way.
+
+Implemented as a ``Bifunctor``:
+
+.. code-block:: haskell
+
+   instance Bifunctor Pair where
+      bimap f g (Pair a b) = Pair (f a) (g b)
+      first f (Pair a b)   = Pair (f a) b
+      second g (Pair a b)  = Pair a (f b)
+
+8.2
+---
+
+**Show the isomorphism between the standard definition of Maybe and this
+desugaring:**
+
+.. code-block:: haskell
+
+   type Maybe' a = Either (Const () a) (Identity a)
+
+**By defining two mappings between the two implementations.**
+
+The default implementation of ``Maybe`` is:
+
+.. code-block:: haskell
+
+   type Maybe a = Nothing | Just a
+
+And we can define the mappings between the two types as:
+
+.. code-block:: haskell
+
+   import Data.Functor.Const
+   import Data.Functor.Identity
+
+   type Maybe' a = Either (Const () a) (Identity a)
+
+   a2b :: Maybe a -> Maybe' a
+   a2b Nothing = Left (Const ())
+   a2b (Just x) = Right (Identity x)
+
+   b2a :: Maybe' a -> Maybe a
+   b2a (Left (Const ())) = Nothing
+   b2a (Right (Identity x)) = Just x
+
